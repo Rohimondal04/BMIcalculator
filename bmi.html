@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: rgba(147, 4, 4, 0.91);
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #only{visibility: hidden;}
+        .input{border-radius: 8px;}
+    </style>
+    <script>
+        function calculate() {
+            var gender = document.getElementById('gender').value;
+            var height = parseFloat(document.getElementById('height').value);
+            var weight = parseFloat(document.getElementById('weight').value);
+            var resultElement = document.getElementById('result');
+            var bmi = weight / ((height / 100) * (height / 100));
+            document.getElementById("only").value=bmi;
+
+            if (!isNaN(bmi)) {
+                var category;
+                if (gender === 'male') {
+                    category = getBMICategoryMen(bmi);
+                } else if (gender === 'female') {
+                    category = getBMICategoryWomen(bmi);
+                }
+                resultElement.value = 'Your BMI: ' + bmi.toFixed(2) + ', ' + category;
+            } else {
+                resultElement.value = 'Please enter valid height and weight.';
+            }
+        }
+
+        function getBMICategoryMen(bmi) {
+            if (bmi < 18) {
+                return 'Underweight';}
+            else if (bmi >= 18 && bmi < 25) {
+                return 'Normal weight';}
+            else if (bmi >= 25 && bmi < 30) {
+                return 'Overweight';}
+            else {
+                return 'Obese';}}
+
+        function getBMICategoryWomen(bmi) {
+            if (bmi < 18) {
+                return 'Underweight';}
+            else if (bmi >= 18 && bmi < 25) {
+                return 'Normal weight';}
+            else if (bmi >= 25 && bmi < 30) {
+                return 'Overweight';}
+            else {
+                return 'Obese';}
+        }
+        function changeColor() {
+            var value = parseFloat(document.getElementById("only").value);
+            var outputText = document.getElementById("result");
+            if (value <= 18) {
+                outputText.style.color = "#01a5a9";}
+            else if (value > 18 && value < 25) {
+                outputText.style.color = "green";}
+            else if (value >= 25 && value <= 30) {
+                outputText.style.color = "orange";}
+            else if (value > 35) {
+                outputText.style.color = "red";}}
+        function changeImage() {
+            var value = parseInt(document.getElementById("only").value);
+            var image = document.getElementById("img");
+
+            if (value <= 18) {
+                image.src = "assets/img_3.png";
+            } else if (value >18 && value < 25) {
+                image.src = "assets/img_2.png";
+            } else if (value >=25 && value<=30 ) {
+                image.src = "assets/img_1.png";
+            } else if (value>35){
+                image.src = "assets/imh_5.png"; // Default image if value is between 18 and 25
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="container" style="background-color: rgb(105,168,255); border-radius:10px; border-width:20px;border-style:solid; border-color:rgb(103,170,255) ;
+width:90%;">
+    <h1>BMI Calculator</h1>
+    <label for="gender">Select Gender:</label>
+    <select class="input" id="gender" name="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+    <input class="input" type="text" id="height" name="height" placeholder="Height (in cm)">
+    <input class="input" type="number" id="weight" name="weight" placeholder="Weight (in kg)">
+    <input class="input" type="submit" value="Calculate" onclick="calculate();changeColor();changeImage()">
+    <input class="input result" type="text" id="result">
+    <input type="number" id="only">
+    <img id="img" src="assets/img_4.png" alt="Default Image" style="width:90%;height:75%;border-radius:8px;">
+</div></body>
+</html>
